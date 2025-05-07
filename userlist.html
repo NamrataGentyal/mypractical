@@ -7,11 +7,10 @@
   <h2>Registered Users</h2>
   <ul id="userList"></ul>
 
-
-  <a href="index.html" class="btn btn-secondary">Back to Register</a>
+  <a href="index.html">Back to Register</a>
 
   <script>
-    const users = JSON.parse(localStorage.getItem('users')) || [];
+    let users = JSON.parse(localStorage.getItem('users')) || [];
 
     const list = document.getElementById('userList');
     users.forEach((user, index) => {

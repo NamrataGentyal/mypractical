@@ -5,52 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register User</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
 </head>
 <body>
     <h1>Registeration Form</h1>
     <form id="register">
-        <label>Name: <input type="text" name="name" id="name"></label>
-        <label>Email: <input type="email" name="email" id="email"></label>
-        <label>Password: <input type="password" name="password" id="password"></label>
-         <button type="submit">Register</button>
-         <a href="userlist.html">View User</a>
+        <label>Name: <input type="text" name="name" id="name"></label><br><br>
+        <label>Email: <input type="email" name="email" id="email"></label><br><br>
+        <label>Password: <input type="password" name="password" id="password"></label><br><br>
+         <button type="submit">Register</button><br><br>
+         <a href="userlist.html">View User</a><br><br>
     </form>
     <script>
-        const userArray = JSON.parse(localStorage.getItem("users")) || [];
-    
-        document.getElementById("registrationForm").addEventListener("submit", function(e) {
+          document.getElementById('register').addEventListener("submit", function(e) {
           e.preventDefault();
-    
-          const username = document.getElementById("username").value;
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-    
-          const userData = { username, email, password };
-    
-          // 1. Push to array
-          userArray.push(userData);
-    
-          // 2. Save to local storage
-          localStorage.setItem("users", JSON.stringify(userArray));
-    
-          // 3. Send via AJAX POST (mocked with JSONPlaceholder or your endpoint)
-          fetch('https://jsonplaceholder.typicode.com/posts', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userData)
-          })
-          .then(response => response.json())
-          .then(data => {
-            console.log("Posted successfully:", data);
-            // Redirect to another page
-            window.location.href = "users.html";
-          })
-          .catch(error => console.error("Error posting data:", error));
-        });
+
+          const name = document.getElementById('name').value;
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+
+          const userData = { name, email, password };
+
+          let users = JSON.parse(localStorage.getItem('users')) || [];
+          users.push(userData);
+          localStorage.setItem('users', JSON.stringify(users));
+
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", "https://jsonplaceholder.typicode.com/posts", true);
+          xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+          xhr.send(JSON.stringify(userData)); 
+
+          xhr.onload = function() {
+          if (xhr.status === 200 || xhr.status === 201) {
+              alert("User Registered Successfully!...");
+          } else {
+              alert("Failed to register user!...");
+          }
+        };
+    });
       </script>
-    <script src="script.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 </html>
